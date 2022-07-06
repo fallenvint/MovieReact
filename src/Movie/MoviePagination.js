@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from "react-router-dom";
 import cn from 'classnames';
 
-const MoviePagination = ({page, totalPage, onSetPage}) => {
+
+const MoviePagination = ({page, totalPage}) => {
     let [pageObj, setPageObj] = useState({
         a: page,
         b: page + 1,
@@ -40,27 +42,30 @@ const MoviePagination = ({page, totalPage, onSetPage}) => {
 
     return (
         <div className="page-pagination">
-            <button className={cn('page', {'hide': page === 1})} onClick={
-                () => {
-                    onSetPage(1, false);
-                    window.location.pathname = `1`;
-                }
-            }>
+            <Link
+                to={"/1"}
+                className={cn('page', {'hide': page === 1})}
+            >
                 first
-            </button>
-            <button className={cn('page separator', {'hide': page === 1})} onClick={
-                () => {
-                    onSetPage(page - 1, false);
-                    window.location.pathname = `${page - 1}`;
-                }
-            }>
-                prev
-            </button>
+            </Link>
+
+            {
+                (page - 1 > 0) &&
+                <Link
+                    to={`/${page - 1}`}
+                    className={cn('page separator', {'hide': page === 1})}
+                >
+                    prev
+                </Link>
+            }
+
             <span className={cn('separator', {'hide': page < 4})}>...</span>
+
             {
                 Object.keys(pageObj).map((key, index) => {
                     return (
-                        <button
+                        <Link
+                            to={`/${pageObj[key]}`}
                             className={
                                 cn('page', {
                                     'current': pageObj[key] === page,
@@ -68,36 +73,32 @@ const MoviePagination = ({page, totalPage, onSetPage}) => {
                                     'last': pageObj[key] === totalPage
                                 })
                             }
-                            onClick={
-                                () => {
-                                    onSetPage(pageObj[key], false);
-                                    window.location.pathname = `${pageObj[key]}`;
-                                }
-                            }
                             key={index}
                         >
                             {pageObj[key]}
-                        </button>
+                        </Link>
                     )
                 })
             }
+
             <span className={cn('separator', {'hide': page > totalPage - 3})}>...</span>
-            <button className={cn('page separator', {'hide': page === totalPage})} onClick={
-                () => {
-                    onSetPage(page + 1, false);
-                    window.location.pathname = `${page + 1}`;
-                }
-            }>
-                next
-            </button>
-            <button className={cn('page', {'hide': page === totalPage})} onClick={
-                () => {
-                    onSetPage(totalPage, false);
-                    window.location.pathname = `${totalPage}`;
-                }
-            }>
+
+            {
+                (page < totalPage) &&
+                <Link
+                    to={`/${page + 1}`}
+                    className={cn('page separator', {'hide': page === totalPage})}
+                >
+                    next
+                </Link>
+            }
+
+            <Link
+                to={`/${totalPage}`}
+                className={cn('page', {'hide': page === totalPage})}
+            >
                 last
-            </button>
+            </Link>
         </div>
     )
 }

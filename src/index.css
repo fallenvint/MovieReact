@@ -11,6 +11,10 @@ html, body {
   user-select: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 img {
   max-width: 100%;
 }
@@ -31,13 +35,17 @@ header {
   color: #ffffff;
 }
 
-header > div {
-  display: flex;
-  align-items: center;
+header > a {
+  color: #ffffff;
 }
 
 .logo-block, .menu-item, .poster > div {
   cursor: pointer;
+}
+
+.logo-block {
+  display: flex;
+  align-items: center;
 }
 
 .logo-block i {
@@ -105,7 +113,7 @@ main {
   width: 100%;
 }
 
-.poster > div {
+.poster > a {
   display: flex;
   height: 100%;
   border-radius: 10px;
