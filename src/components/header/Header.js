@@ -1,26 +1,27 @@
-import React from "react";
-import {Link, NavLink} from "react-router-dom"
+import React from 'react';
+import {Link, NavLink} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCirclePlay, faStar} from '@fortawesome/free-regular-svg-icons';
 import {faStar as farStar} from '@fortawesome/free-solid-svg-icons';
+import style from './Header.module.css';
 
-const MovieHeader = () => {
+const Header = () => {
     return (
         <header>
-            <Link to={'/'}>
-                <div className="logo-block">
+            <Link to="/">
+                <div className={style.logo}>
                     <i><FontAwesomeIcon icon={faCirclePlay}/></i>
                     <span>Movies</span>
                 </div>
             </Link>
-            <div className="menu-block">
+            <div>
                 <NavLink
-                    to='my_favorite'
+                    to="my_favorite"
                     children={({isActive}) => {
-                        const childActive = isActive ? {icon: farStar, class: 'active'} : {icon: faStar, class: ''};
+                        const childActive = isActive ? {icon: farStar, class: style.button_active} : {icon: faStar, class: ''};
 
                         return (
-                            <div className={`menu-item button ${childActive.class}`}>
+                            <div className={`${style.menu_item} ${style.button} ${childActive.class}`}>
                                 <span>My favorite</span>
                                 <i><FontAwesomeIcon icon={childActive.icon}/></i>
                             </div>
@@ -32,4 +33,4 @@ const MovieHeader = () => {
     )
 }
 
-export default MovieHeader;
+export default Header;
