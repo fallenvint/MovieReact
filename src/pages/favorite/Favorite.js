@@ -1,29 +1,24 @@
 import React, {useEffect} from 'react';
-import {runInAction} from 'mobx';
 import {observer} from 'mobx-react';
-import {favoriteStore} from '../../stores';
+import {favStore} from '../../stores';
 import style from './Favorite.module.css';
 import noposter from '../../img/no-image.png';
 
-const favStore = favoriteStore();
 const posterUrl = 'https://image.tmdb.org/t/p/w342';
 
-const Favorite = observer(() => {
+const Favorite = () => {
     useEffect(() => {
-        runInAction(() => {
-            favStore.moviesArray = JSON.parse(localStorage.getItem('fav-movies'));
-        });
-
+        favStore.updateFavList();
         document.title = 'My favorites';
     }, []);
 
-    if (!!favStore.jsArray.length) {
+    if (!!favStore.jsFavList.length) {
         return (
             <div>
                 <div className="page-title">My favorite</div>
                 <div className={`${style.favorites} page-content`}>
                     {
-                        favStore.jsArray.map((movie) => {
+                        favStore.jsFavList.map((movie) => {
                             return (
                                 <div className={style.favorite} key={movie.id}>
                                     <div className={style.favorite_movie}>
@@ -62,6 +57,7 @@ const Favorite = observer(() => {
             </div>
         )
     }
-});
+};
 
-export default Favorite;
+
+export default observer(Favorite);

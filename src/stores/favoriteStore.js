@@ -1,25 +1,31 @@
 import {observable, action, computed, makeObservable, toJS} from 'mobx';
 
-export const favoriteStore = () => {
+const favoriteStore = () => {
     return makeObservable({
-        moviesArray: localStorage.getItem('fav-movies') ? JSON.parse(localStorage.getItem('fav-movies')) : [],
-        get jsArray() {
-            return toJS(this.moviesArray);
+        favList: [],
+        get jsFavList() {
+            return toJS(this.favList);
+        },
+        updateFavList() {
+            this.favList = JSON.parse(localStorage.getItem('fav-movies'));
         },
         addMovie(item) {
-            const newArray = [item].concat(...this.jsArray);
+            const newArray = [item].concat(...this.jsFavList);
 
             localStorage.setItem('fav-movies', JSON.stringify(newArray));
-            this.moviesArray = JSON.parse(localStorage.getItem('fav-movies'));
+            this.favList = JSON.parse(localStorage.getItem('fav-movies'));
         },
         removeMovie(id) {
-            localStorage.setItem('fav-movies', JSON.stringify(this.jsArray.filter(item => item.id !== id)));
-            this.moviesArray = JSON.parse(localStorage.getItem('fav-movies'));
+            localStorage.setItem('fav-movies', JSON.stringify(this.jsFavList.filter(item => item.id !== id)));
+            this.favList = JSON.parse(localStorage.getItem('fav-movies'));
         }
     }, {
-        moviesArray: observable,
-        jsArray: computed,
+        favList: observable,
+        jsFavList: computed,
+        updateFavList: action.bound,
         addMovie: action.bound,
         removeMovie: action.bound
     });
-}
+};
+
+export const favStore = favoriteStore();

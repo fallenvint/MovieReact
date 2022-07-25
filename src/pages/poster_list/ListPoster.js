@@ -5,14 +5,14 @@ import style from './List.module.css';
 
 const posterUrl = 'https://image.tmdb.org/t/p/w342';
 
-const ListPoster = ({movie, page}) => {
+const ListPoster = ({movieItem, page}) => {
     return (
-        <div className={style.poster} key={movie.id}>
-            <Link to={`/${page}/movie/${movie.id}`}>
+        <div className={style.poster} key={movieItem.id}>
+            <Link to={`/${page}/movie/${movieItem.id}`}>
                 <img
-                    src={!movie.poster_path ? noposter : posterUrl + movie.poster_path}
-                    alt={movie.title}
-                    title={movie.title}
+                    src={!movieItem.poster_path ? noposter : posterUrl + movieItem.poster_path}
+                    alt={movieItem.title}
+                    title={movieItem.title}
                 />
             </Link>
         </div>

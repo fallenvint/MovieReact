@@ -1,22 +1,16 @@
 import React, {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
-import {runInAction} from 'mobx';
 import {observer} from 'mobx-react';
-import {fetchStore} from '../../stores';
+import {fetStore} from '../../stores';
 import ListPoster from './ListPoster';
 import Pagination from '../../components/pagination/Pagination';
 import style from './List.module.css';
 
-const fetStore = fetchStore();
-
-const List = observer(() => {
+const List = () => {
     const {page} = useParams();
 
     useEffect(() => {
-        runInAction(() => {
-            fetStore.currentPage = (!page) ? 1 : +page;
-            fetStore.fetchPage(fetStore.currentPage);
-        });
+        fetStore.fetchPage((!page) ? 1 : +page);
     }, [page]);
 
     useEffect(() => {
@@ -29,19 +23,19 @@ const List = observer(() => {
             <div className="page-title">Latest Releases</div>
             <div className={`${style.posters} page-content`}>
                 {
-                    fetStore.results?.map((movie) => {
+                    fetStore.results.map((movie) => {
                         return (
                             <ListPoster
                                 key={movie.id}
-                                movie={movie}
-                                page={fetStore.currentPage}/>
+                                movieItem={movie}
+                                page={(!page) ? 1 : +page}/>
                         );
                     })
                 }
             </div>
-            <Pagination page={fetStore.currentPage} totalPage={fetStore.totalPages}/>
+            <Pagination page={(!page) ? 1 : +page} totalPage={fetStore.totalPages}/>
         </div>
     )
-});
+};
 
-export default List;
+export default observer(List);
