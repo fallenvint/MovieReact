@@ -59,5 +59,4 @@ const Favorite = () => {
     }
 };
 
-
 export default observer(Favorite);

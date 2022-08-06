@@ -31,6 +31,6 @@ const Pagination = ({page, totalPage}) => {
             disabledClassName={`hide`}
         />
     )
-}
+};
 
 export default Pagination;

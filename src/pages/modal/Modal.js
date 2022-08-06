@@ -42,7 +42,7 @@ const Modal = () => {
                         (!lastMovie) &&
                         <Link
                             to={
-                                (fetStore.movieIndex === 19) ? `/${+page + 1}/movie/${fetStore.npMovieId}` : `/${+page}/movie/${fetStore.results[fetStore.movieIndex + 1]?.id}`
+                                (fetStore.movieIndex < fetStore.results.length - 1) ? `/${+page}/movie/${fetStore.results[fetStore.movieIndex + 1]?.id}` : `/${+page + 1}/movie/${fetStore.npMovieId}`
                             }>
                             <button>
                                 <span>Next movie</span>

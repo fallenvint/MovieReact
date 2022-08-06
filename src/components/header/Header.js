@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
+import cn from 'classnames';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCirclePlay, faStar} from '@fortawesome/free-regular-svg-icons';
 import {faStar as farStar} from '@fortawesome/free-solid-svg-icons';
@@ -18,12 +19,16 @@ const Header = () => {
                 <NavLink
                     to="my_favorite"
                     children={({isActive}) => {
-                        const childActive = isActive ? {icon: farStar, class: style.button_active} : {icon: faStar, class: ''};
-
                         return (
-                            <div className={`${style.menu_item} ${style.button} ${childActive.class}`}>
+                            <div
+                                className={
+                                    cn(style.menu_item, style.button, {
+                                        [`${style.active}`]: isActive
+                                    })
+                                }
+                            >
                                 <span>My favorite</span>
-                                <i><FontAwesomeIcon icon={childActive.icon}/></i>
+                                <i><FontAwesomeIcon icon={isActive ? farStar : faStar}/></i>
                             </div>
                         );
                     }}
@@ -31,6 +36,6 @@ const Header = () => {
             </div>
         </header>
     )
-}
+};
 
 export default Header;

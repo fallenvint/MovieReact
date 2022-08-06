@@ -1,4 +1,9 @@
-import {observable, action, computed, makeObservable, toJS} from 'mobx';
+import {action, computed, makeObservable, observable, runInAction, toJS} from 'mobx';
+
+const fetchMoviesJSON = async (pageNum) => {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=ebea8cfca72fdff8d2624ad7bbf78e4c&page=${pageNum}`);
+    return await response.json();
+};
 
 const fetchStore = () => {
     return makeObservable({
@@ -18,19 +23,19 @@ const fetchStore = () => {
             this.movieId = id;
         },
         fetchPage(page) {
-            fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=ebea8cfca72fdff8d2624ad7bbf78e4c&page=${page}`)
-                .then((response) => response.json())
-                .then((json) => {
-                    this.data = json;
+            fetchMoviesJSON(page).then(data => {
+                runInAction(() => {
+                    this.data = data;
                 });
+            });
         },
         setNpMovieId(page) {
-            page < this.data.total_pages &&
-            fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=ebea8cfca72fdff8d2624ad7bbf78e4c&page=${page + 1}`)
-                .then((response) => response.json())
-                .then((json) => {
-                    this.npMovieId = json.results[0].id;
+            page < this.totalPages &&
+            fetchMoviesJSON(page+1).then(data => {
+                runInAction(() => {
+                    this.npMovieId = data.results[0].id;
                 });
+            });
         }
     }, {
         data: observable,
@@ -43,6 +48,6 @@ const fetchStore = () => {
         fetchPage: action.bound,
         setNpMovieId: action.bound,
     });
-}
+};
 
 export const fetStore = fetchStore();

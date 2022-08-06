@@ -17,6 +17,6 @@ const ListPoster = ({movieItem, page}) => {
             </Link>
         </div>
     )
-}
+};
 
 export default ListPoster;
